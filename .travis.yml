@@ -15,12 +15,13 @@ before_install:
 - hererocks env --lua 5.1 -rlatest
 - source env/bin/activate
 - luarocks install luafilesystem
+- export TZ="Asia/Shanghai"
 install:
 - tar -Jxvf tools/esp-open-sdk.tar.xz
 - export PATH=$PATH:$PWD/esp-open-sdk/xtensa-lx106-elf/bin
 script:
 - lua tools/cross-lua.lua || exit 1
-- export BUILD_DATE=$(date +%Y%m%d)
+- export BUILD_DATE=$(date +%Y-%m-%d)
 - make EXTRA_CCFLAGS="-DBUILD_DATE='\"'$BUILD_DATE'\"'" all
 - cd bin/
 - file_name_float="nodemcu_float_${TRAVIS_TAG}.bin"
@@ -33,3 +34,13 @@ script:
 - srec_cat -output ${file_name_integer} -binary 0x00000.bin -binary -fill 0xff 0x00000 0x10000 0x10000.bin -binary -offset 0x10000
 # http://docs.travis-ci.com/user/environment-variables/#Convenience-Variables
 - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash "$TRAVIS_BUILD_DIR"/tools/pr-build.sh; fi
+deploy:
+  provider: releases
+  api_key: $GITHUB_OAUTH_TOKEN
+  file:
+    - ${file_name_float}
+    - ${file_name_integer}
+  skip_cleanup: true
+  on:
+    tags: true
+    
