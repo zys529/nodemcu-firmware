@@ -63,7 +63,7 @@ extern void luaL_assertfail(const char *file, int line, const char *message);
 // See https://github.com/nodemcu/nodemcu-firmware/issues/1457 for conversation details.
 #define SSL_BUFFER_SIZE 5120
 
-//#define CLIENT_SSL_ENABLE
+#define CLIENT_SSL_ENABLE
 //#define MD2_ENABLE
 #define SHA2_ENABLE
 
@@ -109,7 +109,7 @@ extern void luaL_assertfail(const char *file, int line, const char *message);
 //#define WIFI_STA_HOSTNAME "NodeMCU"
 //#define WIFI_STA_HOSTNAME_APPEND_MAC
 
-//#define WIFI_SMART_ENABLE
+#define WIFI_SMART_ENABLE
 
 #define WIFI_SDK_EVENT_MONITOR_ENABLE
 #define WIFI_EVENT_MONITOR_DISCONNECT_REASON_LIST_ENABLE
